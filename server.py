@@ -30,7 +30,7 @@ def exec(command):
 
   for (dirpath, dirnames, filenames) in os.walk("./mods/"):
     for filename in filenames:
-      if filename == command:
+      if filename.replace('.py', '') == command:
         print(f"executando: {filename}")
         os.system(f"python mods/{filename}")
         return
