@@ -1,6 +1,7 @@
 import socket
 import requests
 import json
+import os
 
 previous_reaction_id = None
 
@@ -26,6 +27,13 @@ def speak(keywords):
 
 def exec(command):
   print(f"command: {command}")
+
+  for (dirpath, dirnames, filenames) in os.walk("./mods/"):
+    for filename in filenames:
+      if filename == command:
+        print(f"executando: {filename}")
+        os.system(f"python mods/{filename}")
+        return
 
 def start():
   print('iniciado')
