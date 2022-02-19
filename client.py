@@ -1,12 +1,13 @@
 import socket
-HOST = '192.168.1.8'  # Endereco IP do Servidor
-PORT = 5000            # Porta que o Servidor esta
+HOST = '192.168.1.3'
+PORT = 5000
 udp = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 dest = (HOST, PORT)
-print('Conectado\n')
+print('client started\n')
+
 msg = 'leanddro conectado..'
 
 while True:
-  udp.sendto (msg, dest)
-  msg = raw_input()
+  udp.sendto(msg.encode(), dest)
+  msg = input()
 
