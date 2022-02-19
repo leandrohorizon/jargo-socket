@@ -18,8 +18,8 @@ def speak(keywords):
     print('Sem resposta')
     return
 
-  previous_reaction_id = interaction['id']
   reaction = interaction['reaction']
+  previous_reaction_id = reaction['id']
   print(f"Jargo: {reaction['text']}")
   exec(reaction['command'])
 
