@@ -1,26 +1,36 @@
 import socket
 import requests
 import json
-import random
 
-def speak(text):
-  request = requests.get(f"http://localhost:3000/api/v1/robots/1/speak?text={text}")
+previous_reaction_id = None
+
+def speak(keywords):
+  global previous_reaction_id
+
+  request = requests.get('https://jargorobots.herokuapp.com/api/v1/robots/jargo/speak',
+                         data={'keywords': keywords,
+                               'previous_reaction_id': previous_reaction_id})
+
   todo = json.loads(request.content)
-  responses = todo['interaction']['responses']
-  quantity_responses = len(responses)
-  if(quantity_responses > 0):
-    response_sort = responses[random.randint(0, quantity_responses-1)]['response']
-    print(f"Jargo: {response_sort['text']}")
-    exec(response_sort['command'])
-  else:
+  interaction = todo['interaction']
+
+  if(interaction['id'] is None):
     print('Sem resposta')
+    return
+
+  previous_reaction_id = interaction['id']
+  reaction = interaction['reaction']
+  print(f"Jargo: {reaction['text']}")
+  exec(reaction['command'])
+
 
 def exec(command):
-  print(command)
+  print(f"command: {command}")
 
 def start():
-  HOST = ''              # Endereco IP do Servidor
-  PORT = 5000            # Porta que o Servidor esta
+  print('iniciado')
+  HOST = ''
+  PORT = 5000
   udp = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
   orig = (HOST, PORT)
   udp.bind(orig)
