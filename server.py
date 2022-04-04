@@ -22,7 +22,9 @@ def speak(keywords):
   reaction = interaction['reaction']
   previous_reaction_id = reaction['id']
   print(f"Jargo: {reaction['text']}")
-  exec(reaction['command'])
+
+  for(procedure) in reaction['procedures']:
+    exec(procedure['procedure']['command'])
 
 
 def exec(command):
@@ -32,7 +34,7 @@ def exec(command):
     for filename in filenames:
       if filename.replace('.py', '') == command:
         print(f"executando: {filename}")
-        os.system(f"python mods/{filename}")
+        os.system(f"python3 mods/{filename}")
         return
 
 def start():
@@ -44,6 +46,7 @@ def start():
   udp.bind(orig)
   while True:
     msg, cliente = udp.recvfrom(1024)
+    print(f"leanddro: {msg}")
     speak(msg)
 
 start()
